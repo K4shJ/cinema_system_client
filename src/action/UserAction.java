@@ -1,5 +1,10 @@
 package action;
 
+import Util.InputUtil;
+import Util.SocketUtil;
+import entity.User;
+import message.Message;
+
 /**
  * 用户行为
  */
@@ -8,7 +13,15 @@ public class UserAction {
      * 注册
      */
     public static void register() {
-
+        String username = InputUtil.getInputText("请输入账号：");
+        String pwd = InputUtil.getInputText("请输入密码：");
+        String securityCode = InputUtil.getInputText("请输入安全码：");
+        User user = new User(username, pwd, securityCode);
+        Message<User> msg = new Message<>("register",user);
+        Integer res = SocketUtil.sendMessage(msg);
+        if(res != null && res == 1) System.out.println("注册成功");
+        else if (res != null && res == -1) System.out.println("该账号已经被注册");
+        else System.out.println("注册失败，请稍后重试");
     }
 
     /**

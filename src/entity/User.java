@@ -1,9 +1,11 @@
 package entity;
 
+import java.io.Serializable;
+
 /**
  * 用户
  */
-public class User {
+public class User implements Serializable {
     private String username;
 
     private String password;
@@ -13,6 +15,12 @@ public class User {
     private boolean manager;
     //状态1-正常，0-冻结
     private int state = 1;
+
+    public User(String username, String pwd, String securityCode) {
+        this.username = username;
+        this.password = pwd;
+        this.securityCode = securityCode;
+    }
 
     public String getUsername() {
         return username;
@@ -54,5 +62,10 @@ public class User {
         this.state = state;
     }
 
-
+    @Override
+    public String toString() {
+        String identity = (manager ? "管理员" : "普通用户");
+        String s = state == 1 ? "正常" : "被冻结";
+        return username + "\t" + identity + "\t" + s;
+    }
 }
