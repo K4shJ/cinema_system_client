@@ -1,0 +1,37 @@
+package entity;
+
+/**
+ * 座位
+ */
+public class Seat {
+
+    private int col;
+
+    private int row;
+
+    private String owner;
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+}
