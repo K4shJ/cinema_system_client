@@ -7,6 +7,7 @@ import menu.MenuManager;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CinemaClient {
 
@@ -17,14 +18,13 @@ public class CinemaClient {
     /**
      * 展示界面
      */
-    private static void showInterface(Menu[] menus){
+    private static void showInterface(Menu[] menus) {
         MenuManager.showMenu(menus);
-        int number = InputUtil.getInputInteger("请选择菜单编号",1,menus.length);
-        Menu select = menus[number-1];
-        switch(select.getAction()){
+        int number = InputUtil.getInputInteger("请选择菜单编号", 1, menus.length);
+        Menu select = menus[number - 1];
+        switch (select.getAction()) {
             case "login":
-                UserAction.login();
-                showInterface(MenuManager.USER_MENUS);
+                login();
                 break;
             case "register":
                 UserAction.register();
@@ -36,6 +36,7 @@ public class CinemaClient {
                 break;
             case "unfrozenApply":
                 UserAction.unfrozenApply();
+                showInterface(MenuManager.LOGIN_MENUS);
                 break;
             case "quit":
                 UserAction.quit();
@@ -50,39 +51,63 @@ public class CinemaClient {
             case "goBackMain":
                 showInterface(MenuManager.USER_MENUS);
                 break;
+            case "addFilm":
+                UserAction.addFilm();
+                showChildren(select);
+                break;
+            case "updateFilm":
+                UserAction.updateFilm();
+                showChildren(select);
+                break;
+            case "deleteFilm":
+                UserAction.deleteFilm();
+                showChildren(select);
+                break;
+            case "getFilmList":
+                UserAction.getFilmList();
+                showChildren(select);
+                break;
             default:
-                Menu[] selectMenus = select.getParent().getChildren().toArray(new Menu[0]);
-                showInterface(selectMenus);
+                showChildren(select);
         }
     }
 
-//    private static void showLoginMenu() {
-//        MenuManager.showMenu(MenuManager.LOGIN_MENUS);
-//        int number = InputUtil.getInputInteger("请选择菜单编号", 1, MenuManager.LOGIN_MENUS.length);
-//        Menu select = MenuManager.LOGIN_MENUS[number - 1];
-//        switch (select.getAction()) {
-//
-//        }
-//    }
-//
-//    private static void showMainMenu() {
-//        MenuManager.showMenu(MenuManager.USER_MENUS);
-//        int number = InputUtil.getInputInteger("请输入菜单编号：", 1, MenuManager.USER_MENUS.length);
-//        Menu select = MenuManager.USER_MENUS[number - 1];
-//        switch (select.getAction()) {
-//
-//        }
-//    }
-//
-//    private static void showChildren(Menu parent) {
-//
-//        List<Menu> children = parent.getChildren();
-//        Menu[] childrenArray = children.toArray(new Menu[children.size()]);
-//        MenuManager.showMenu(childrenArray);
-//        int number = InputUtil.getInputInteger("请输入菜单编号", 1, childrenArray.length);
-//        Menu select = childrenArray[number - 1];
-//        switch (select.getAction()) {
-//
-//        }
-//    }
+    private static void login() {
+        Map<String, Object> res = UserAction.login();
+        if (res == null) {
+            System.out.println("登陆失败");
+            showInterface(MenuManager.LOGIN_MENUS);
+        } else {
+            int process = (int) res.get("process");
+            if (process == 1) {
+                boolean isManager = (boolean) res.get("manager");
+                Menu[] mainMenus = isManager ? MenuManager.MANAGER_MENUS : MenuManager.USER_MENUS;
+                showInterface(mainMenus);
+            } else {
+                String tips;
+                if (process == 0) {
+                    tips = "账号或密码错误";
+                } else if (process == -1) {
+                    tips = "账号不存在，请先注册";
+                } else {
+                    tips = "账号已被冻结，请申请解冻";
+                }
+                System.out.println(tips);
+                showInterface(MenuManager.LOGIN_MENUS);
+            }
+        }
+    }
+
+    /**
+     * 展示与子菜单同级的菜单
+     *
+     * @param childMenu 所选的子菜单
+     *
+     */
+    private static void showChildren(Menu childMenu) {
+        Menu parent = childMenu.getParent();
+        List<Menu> children = parent.getChildren();
+        Menu[] menus = children.toArray(new Menu[0]);
+        showInterface(menus);
+    }
 }

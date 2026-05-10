@@ -19,7 +19,7 @@ public class IdGenerator {
      * @return
      */
     public static String generateId(int length){
-        StringBuilder sb = new StringBuilder("uid");
+        StringBuilder sb = new StringBuilder("uid_");
         for (int i = 0; i < length; i++) {
             int index = r.nextInt(characters.length);
             sb.append(characters[index]);

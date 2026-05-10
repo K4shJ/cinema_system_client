@@ -1,9 +1,11 @@
 package entity;
 
+import java.io.Serializable;
+
 /**
- *解冻申请
+ * 解冻申请
  */
-public class UnfrozenApply {
+public class UnfrozenApply implements Serializable {
 
     private String id;
 
@@ -12,6 +14,12 @@ public class UnfrozenApply {
     private String reason;
     //处理状态0-待处理，1-已处理，2-已驳回
     private int state;
+
+    public UnfrozenApply(String id, String username, String reason) {
+        this.id = id;
+        this.username = username;
+        this.reason = reason;
+    }
 
     public String getId() {
         return id;
@@ -43,5 +51,11 @@ public class UnfrozenApply {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        String stateStr = state == 0 ? "待处理" :state == 1?"已处理":"已驳回";
+        return id + "\t" + username + "\t" + reason + "\t" + stateStr;
     }
 }
