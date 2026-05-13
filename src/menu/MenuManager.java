@@ -48,21 +48,21 @@ public class MenuManager {
         menu1.addChild(new Menu(1, "查看影片", "getFilmList", menu1));
         menu1.addChild(new Menu(2, "增加影片", "addFilm", menu1));
         menu1.addChild(new Menu(3, "修改影片", "updateFilm", menu1));
-        menu1.addChild(new Menu(4, "删除影片", "cancelFilm", menu1));
+        menu1.addChild(new Menu(4, "删除影片", "deleteFilm", menu1));
         menu1.addChild(new Menu(5, "返回主菜单", "goBackMain", menu1));
 
         Menu menu2 = new Menu(2, "影厅管理", "showChildren");
         menu2.addChild(new Menu(1, "查看影厅", "getFilmHallList", menu2));
         menu2.addChild(new Menu(2, "增加影厅", "addFilmHall", menu2));
         menu2.addChild(new Menu(3, "修改影厅", "updateFilmHall", menu2));
-        menu2.addChild(new Menu(4, "删除影厅", "cancelFilmHall", menu2));
+        menu2.addChild(new Menu(4, "删除影厅", "deleteFilmHall", menu2));
         menu2.addChild(new Menu(5, "返回主菜单", "goBackMain", menu2));
 
         Menu menu3 = new Menu(3, "播放计划管理", "showChildren");
         menu3.addChild(new Menu(1, "查看播放计划", "getFilmPlanList", menu3));
         menu3.addChild(new Menu(2, "增加播放计划", "addFilmPlan", menu3));
         menu3.addChild(new Menu(3, "修改播放计划", "updateFilmPlan", menu3));
-        menu3.addChild(new Menu(4, "删除播放计划", "cancelFilmPlan", menu3));
+        menu3.addChild(new Menu(4, "删除播放计划", "deleteFilmPlan", menu3));
         menu3.addChild(new Menu(5, "返回主菜单", "goBackMain", menu3));
 
         Menu menu4 = new Menu(4, "用户管理", "showChildren");

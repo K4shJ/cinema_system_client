@@ -2,6 +2,7 @@ package starter;
 
 import Util.InputUtil;
 import action.UserAction;
+import entity.FilmHall;
 import menu.Menu;
 import menu.MenuManager;
 
@@ -65,6 +66,22 @@ public class CinemaClient {
                 break;
             case "getFilmList":
                 UserAction.getFilmList();
+                showChildren(select);
+                break;
+            case "addFilmHall":
+                UserAction.addFilmHall();
+                showChildren(select);
+                break;
+            case "updateFilmHall":
+                UserAction.updateFilmHall();
+                showChildren(select);
+                break;
+            case "deleteFilmHall":
+                UserAction.deleteFilmHall();
+                showChildren(select);
+                break;
+            case "getFilmHallList":
+                UserAction.getFilmHallList();
                 showChildren(select);
                 break;
             default:

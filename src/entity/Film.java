@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 影片信息
@@ -57,5 +58,17 @@ public class Film implements Serializable {
     @Override
     public String toString() {
         return id + "\t" + name + "\t" + producer + "\t" + description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Film film = (Film) o;
+        return Objects.equals(name, film.name) && Objects.equals(description, film.description) && Objects.equals(producer, film.producer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, producer);
     }
 }

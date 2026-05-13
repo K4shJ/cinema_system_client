@@ -4,6 +4,7 @@ import Util.IdGenerator;
 import Util.InputUtil;
 import Util.SocketUtil;
 import entity.Film;
+import entity.FilmHall;
 import entity.UnfrozenApply;
 import entity.User;
 import message.Message;
@@ -66,11 +67,11 @@ public class UserAction {
         UnfrozenApply apply = new UnfrozenApply(IdGenerator.generateId(10), username, reason);
         Message<UnfrozenApply> msg = new Message<>("unfrozenApply", apply);
         Integer res = SocketUtil.sendMessage(msg);
-        if(res == null || res == 0){
+        if (res == null || res == 0) {
             System.out.println("解冻申请失败，请稍后重试");
-        }else if(res ==1) {
+        } else if (res == 1) {
             System.out.println("解冻申请发送成功");
-        }else {
+        } else {
             System.out.println("账号未被冻结，无需申请解冻");
         }
     }
@@ -116,11 +117,11 @@ public class UserAction {
      */
     public static void getFilmList() {
         String name = InputUtil.getInputText("请输入影片名字");
-        Message<String>  msg = new Message<>("getFilmList", name);
+        Message<String> msg = new Message<>("getFilmList", name);
         List<Film> filmList = SocketUtil.sendMessage(msg);
-        if(filmList == null || filmList.isEmpty()){
-            System.out.println("未找到与\""+name+"\"相关的影片信息");
-        }else {
+        if (filmList == null || filmList.isEmpty()) {
+            System.out.println("未找到与\"" + name + "\"相关的影片信息");
+        } else {
             System.out.println("影片编号\t\t影片名称\t制片人\t影片描述");
             filmList.forEach(System.out::println);
         }
@@ -133,12 +134,12 @@ public class UserAction {
         String name = InputUtil.getInputText("请输入影片名称");
         String producer = InputUtil.getInputText("请输入制片人");
         String description = InputUtil.getInputText("请输入描述信息");
-        Film film = new Film(IdGenerator.generateId(10),name, producer, description);
+        Film film = new Film(IdGenerator.generateId(10), name, producer, description);
         Message<Film> msg = new Message<>("addFilm", film);
         Integer res = SocketUtil.sendMessage(msg);
-        if(res == null || res == 0){
+        if (res == null || res == 0) {
             System.out.println("添加失败，请稍后重试");
-        }else{
+        } else {
             System.out.println("添加成功");
         }
     }
@@ -154,12 +155,12 @@ public class UserAction {
         Film film = new Film(id, name, producer, description);
         Message<Film> msg = new Message<>("updateFilm", film);
         Integer res = SocketUtil.sendMessage(msg);
-        if(res == null || res == 0){
+        if (res == null || res == 0) {
             System.out.println("修改失败，请检查");
-        }else if(res == 1){
+        } else if (res == 1) {
             System.out.println("修改成功");
-        }else{
-            System.out.println("未找到与\""+id+"\"相关的影片信息");
+        } else {
+            System.out.println("未找到与\"" + id + "\"相关的影片信息");
         }
     }
 
@@ -170,9 +171,9 @@ public class UserAction {
         String id = InputUtil.getInputText("请输入要删除的影片id：");
         Message<String> msg = new Message<>("deleteFilm", id);
         Integer res = SocketUtil.sendMessage(msg);
-        if(res == null || res == 0){
+        if (res == null || res == 0) {
             System.out.println("删除失败请稍后重试");
-        }else {
+        } else {
             System.out.println("删除成功");
         }
     }
@@ -181,28 +182,65 @@ public class UserAction {
      * 查看影厅
      */
     public static void getFilmHallList() {
-
+        Message<String> msg = new Message("getFilmHallList",null);
+        List<FilmHall> filmHalls = SocketUtil.sendMessage(msg);
+        if(filmHalls == null || filmHalls.isEmpty()){
+            System.out.println("暂无影厅信息");
+        }else{
+            System.out.println("影厅编号\t\t\t影厅名称\t座位数");
+            filmHalls.forEach(System.out::println);
+        }
     }
 
     /**
      * 增加影厅
      */
     public static void addFilmHall() {
-
+        String name = InputUtil.getInputText("请输入影厅名称");
+        int totalRow = InputUtil.getInputInteger("请输入影厅总行数", 5, 20);
+        int totalCol = InputUtil.getInputInteger("请输入影厅总列数", 10, 15);
+        FilmHall filmHall = new FilmHall(IdGenerator.generateId(10), name, totalRow, totalCol);
+        Message<FilmHall> msg = new Message<>("addFilmHall", filmHall);
+        Integer res = SocketUtil.sendMessage(msg);
+        if (res == null || res == 0) {
+            System.out.println("添加失败，请稍后重试");
+        } else {
+            System.out.println("添加成功");
+        }
     }
 
     /**
      * 更改影厅
      */
     public static void updateFilmHall() {
-
+        String id = InputUtil.getInputText("请输入影厅编号");
+        String name = InputUtil.getInputText("请输入影厅名称");
+        int totalRow = InputUtil.getInputInteger("请输入总行数", 5, 20);
+        int totalCol = InputUtil.getInputInteger("请输入总排数", 10, 15);
+        FilmHall filmHall = new FilmHall(id, name, totalRow, totalCol);
+        Message<FilmHall> msg = new Message<>("updateFilmHall", filmHall);
+        Integer res = SocketUtil.sendMessage(msg);
+        if (res == null || res == 0) {
+            System.out.println("修改失败，请重试");
+        } else if (res == 1) {
+            System.out.println("修改成功");
+        }else{
+            System.out.println("未找到与\" "+id+"\"相关的影厅信息");
+        }
     }
 
     /**
      * 删除影厅
      */
     public static void deleteFilmHall() {
-
+        String id = InputUtil.getInputText("请输入要删除的影厅id");
+        Message<String> msg = new Message<>("deleteFilmHall", id);
+        Integer res = SocketUtil.sendMessage(msg);
+        if(res == null || res == 0){
+            System.out.println("删除失败");
+        }else{
+            System.out.println("删除成功");
+        }
     }
 
     /**
